@@ -1,0 +1,66 @@
+# =============================================================================
+# PUCKR BACKEND ENVIRONMENT CONFIGURATION
+# =============================================================================
+# Copy this content to a .env file and fill in your actual values
+# Never commit the .env file to version control!
+
+# =============================================================================
+# DATABASE CONFIGURATION
+# =============================================================================
+# Supabase configuration
+SUPABASE_URL=your-supabase-project-url
+SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+
+# =============================================================================
+# GITHUB OAUTH CONFIGURATION
+# =============================================================================
+# GitHub OAuth App credentials (create at https://github.com/settings/applications/new)
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+
+# GitHub OAuth URLs (usually don't need to change these unless using GitHub Enterprise)
+GITHUB_OAUTH_AUTHORIZE_URL=https://github.com/login/oauth/authorize
+GITHUB_OAUTH_TOKEN_URL=https://github.com/login/oauth/access_token
+GITHUB_USER_API_URL=https://api.github.com/user
+
+# GitHub OAuth redirect URI (must match what you set in GitHub OAuth app)
+GITHUB_REDIRECT_URI=http://localhost:8000/api/auth/github/callback
+
+# =============================================================================
+# JWT CONFIGURATION
+# =============================================================================
+# JWT secret key for signing tokens (CRITICAL: Change this to a random string in production!)
+JWT_SECRET_KEY=your-super-secret-jwt-key-change-this-in-production-make-it-long-and-random
+JWT_ALGORITHM=HS256
+# JWT expiration time in hours (168 = 1 week)
+JWT_EXPIRATION_HOURS=168
+
+# =============================================================================
+# FRONTEND URLS
+# =============================================================================
+# Frontend application URLs for redirects
+FRONTEND_HOME_URL=http://localhost:3000/
+FRONTEND_LOGIN_URL=http://localhost:3000/login
+
+# =============================================================================
+# APPLICATION CONFIGURATION
+# =============================================================================
+# Environment (development, staging, production)
+ENVIRONMENT=development
+
+# Backend server configuration
+BACKEND_HOST=localhost
+BACKEND_PORT=8000
+
+# CORS allowed origins (comma-separated for multiple origins)
+CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+
+# =============================================================================
+# LOGGING & DEBUGGING
+# =============================================================================
+# Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+LOG_LEVEL=INFO
+
+# Enable debug mode (true/false)
+DEBUG=true 
