@@ -3,4 +3,5 @@ httpx
 python-dotenv
 supabase
 python-jose[cryptography]
-python-multipart 
+python-multipart
+email-validator 

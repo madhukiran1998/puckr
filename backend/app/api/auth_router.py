@@ -7,6 +7,7 @@ from urllib.parse import urlencode
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from app.db.supabase_client import supabase
+from app.models import UserOAuth, UserResponse
 
 router = APIRouter()
 security = HTTPBearer()
@@ -91,16 +92,17 @@ async def github_callback(request: Request):
     email = user_data.get("email")
     username = user_data.get("login")
     avatar_url = user_data.get("avatar_url")
-    provider = "github"
-    provider_user_id = github_id
-
-    upsert_data = {
-        "provider": provider,
-        "provider_user_id": provider_user_id,
-        "email": email,
-        "username": username,
-        "avatar_url": avatar_url,
-    }
+    
+    # Create user data using the proper model
+    user_oauth = UserOAuth(
+        provider="github",
+        provider_user_id=github_id,
+        email=email,
+        username=username,
+        avatar_url=avatar_url
+    )
+    
+    upsert_data = user_oauth.model_dump(exclude_none=True)
     
     # Upsert by provider + provider_user_id
     response = supabase.table("users").upsert(upsert_data, on_conflict="provider, provider_user_id").execute()
@@ -121,13 +123,13 @@ async def github_callback(request: Request):
     redirect_url = f"{FRONTEND_HOME_URL}?token={jwt_token}"
     return RedirectResponse(url=redirect_url, status_code=302)
 
-@router.get("/auth/me")
+@router.get("/auth/me", response_model=UserResponse)
 def get_current_user(user_id: str = Depends(verify_jwt_token)):
     # Fetch user from Supabase by id
     response = supabase.table("users").select("*").eq("id", user_id).single().execute()
     if not response.data:
         raise HTTPException(status_code=401, detail="User not found")
-    return response.data
+    return UserResponse(**response.data)
 
 @router.get("/auth/logout")
 def logout():
