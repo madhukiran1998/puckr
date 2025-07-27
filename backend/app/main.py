@@ -5,6 +5,8 @@ from .api.embeddings_router import embedding_router
 from .api.search_router import search_router
 from .api.ai_router import ai_router
 from .api.auth_router import router as auth_router
+from .api.files_router import router as files_router
+from .api.links_router import router as links_router
 
 app = FastAPI()
 
@@ -25,4 +27,6 @@ app.include_router(user_router, prefix="/users", tags=["User Service"])
 app.include_router(embedding_router, prefix="/embeddings", tags=["Embedding Service"])
 app.include_router(search_router, prefix="/search", tags=["Search Service"])
 app.include_router(ai_router, prefix="/ai", tags=["AI Service"])
-app.include_router(auth_router, prefix="/api", tags=["Auth"]) 
+app.include_router(auth_router, prefix="/api", tags=["Auth"])
+app.include_router(files_router, prefix="/api", tags=["File Service"])
+app.include_router(links_router, prefix="/api", tags=["Link Service"]) 
