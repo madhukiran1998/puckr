@@ -46,8 +46,41 @@ CREATE TABLE IF NOT EXISTS links (
 );
 
 -- =============================================================================
+-- LLM RESEARCH TABLE (LEAN VERSION)
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS llm_research (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    
+    -- Reference to the source content
+    source_type VARCHAR(20) NOT NULL CHECK (source_type IN ('file', 'link')),
+    source_id UUID NOT NULL,
+    
+    -- LLM configuration
+    llm_provider VARCHAR(50) NOT NULL CHECK (llm_provider IN ('grok', 'gemini', 'perplexity')),
+    
+    -- Research content
+    research_content TEXT,
+    
+    -- Usage tracking (lean)
+    tokens_used INTEGER,
+    
+    -- Metadata for flexible storage
+    metadata JSONB DEFAULT '{}',
+    
+    -- Timestamps
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- =============================================================================
 -- INDEXES FOR PERFORMANCE
 -- =============================================================================
+- LLM Research table indexes
+CREATE INDEX IF NOT EXISTS idx_llm_research_user_id ON llm_research(user_id);
+CREATE INDEX IF NOT EXISTS idx_llm_research_source ON llm_research(source_type, source_id);
+CREATE INDEX IF NOT EXISTS idx_llm_research_llm_provider ON llm_research(llm_provider);
+CREATE INDEX IF NOT EXISTS idx_llm_research_created_at ON llm_research(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_llm_research_metadata ON llm_research USING GIN(metadata);
 
 -- Files table indexes
 CREATE INDEX IF NOT EXISTS idx_files_user_id ON files(user_id);

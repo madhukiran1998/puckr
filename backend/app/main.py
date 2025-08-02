@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .api.users_router import user_router
@@ -7,6 +9,9 @@ from .api.ai_router import ai_router
 from .api.auth_router import router as auth_router
 from .api.files_router import router as files_router
 from .api.links_router import router as links_router
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = FastAPI()
 
