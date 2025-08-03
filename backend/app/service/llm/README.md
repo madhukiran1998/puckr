@@ -43,7 +43,7 @@ The AI helper service now automatically enhances user prompts with content-type-
 ### 3. Perplexity Service (`perplexity_service.py`)
 - **Provider**: Perplexity AI
 - **API**: Perplexity API
-- **Model**: llama-3.1-sonar-small-128k-online
+- **Model**: sonar
 - **Features**: Research with web search, summarization, content analysis
 
 ## Environment Variables

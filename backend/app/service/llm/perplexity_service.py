@@ -11,7 +11,7 @@ class PerplexityService(BaseLLMService):
         super().__init__()
         self.api_key = os.getenv("PERPLEXITY_API_KEY")
         self.base_url = "https://api.perplexity.ai"
-        self.model = "llama-3.1-sonar-small-128k-online"
+        self.model = "sonar"  # Use the correct model name from Perplexity API
         
         if not self.api_key:
             raise ValueError("PERPLEXITY_API_KEY environment variable is required")
@@ -94,7 +94,7 @@ class PerplexityService(BaseLLMService):
         if search:
             data["search"] = True
         
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=None) as client:
             response = await client.post(
                 url,
                 headers=headers,
